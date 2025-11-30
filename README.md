@@ -1,123 +1,136 @@
-Netflix data analysis & end-to-end data pipeline project
+# Netflix Data Analysis & End-to-End Data Pipeline Project
 
-Overview
+## Overview
 
-This project is an end-to-end data engineering and analytics pipeline built using Python and MySQL. It demonstrates how raw CSV data can be ingested, cleaned, transformed, normalized, stored, and analyzed using a structured workflow. The primary objective is to convert the unstructured Netflix dataset into a fully organized relational database and prepare it for analytical use.
+This project is an **end-to-end data engineering and analytics pipeline** built using **Python** and **MySQL**.
+It demonstrates how raw CSV data can be:
 
-Objectives
+* Ingested
+* Cleaned
+* Transformed
+* Normalized
+* Stored
+* Analyzed
 
-Ingest raw Netflix data from a CSV file using Python and Pandas.
+The goal is to convert the unstructured Netflix dataset into a fully modeled relational database suitable for analytical workloads.
 
-Load the cleaned dataset into MySQL using SQLAlchemy.
+---
 
-Perform data cleaning, formatting, and standardization.
+## Objectives
 
-Normalize multi-valued fields such as genre, director, cast, and country into separate relational tables.
+* Ingest raw Netflix data from a CSV file using **Python + Pandas**
+* Load cleaned data into **MySQL** using **SQLAlchemy**
+* Perform data cleaning, formatting, and standardization
+* Normalize multi-valued fields (genre, director, cast, country)
+* Build a MySQL **staging layer**
+* Create **fully normalized relational tables**
+* Prepare final database for analytics and reporting
 
-Build a MySQL staging layer for clean, uniform data.
+---
 
-Prepare the database for analytical queries and business insights.
+## Dataset Description
 
-Dataset Description
+The dataset used is **`netflix_titles.csv`**, containing metadata of Netflix Movies & TV Shows.
 
-The dataset used for this project is netflix_titles.csv, which contains metadata of movies and TV shows available on Netflix.
-Key columns include:
+### Key Columns:
 
-show_id
+* `show_id`
+* `type` (Movie / TV Show)
+* `title`
+* `director`
+* `cast`
+* `country`
+* `date_added`
+* `release_year`
+* `rating`
+* `duration`
+* `listed_in` (Genres)
+* `description`
 
-type (Movie / TV Show)
+---
 
-title
+## Architecture
 
-director
+The project follows a structured pipeline:
 
-cast
+```
+Raw CSV → Python ETL → MySQL Raw Table → MySQL Staging Table
+→ Normalized Tables (Genre, Director, Cast, Country)
+→ Analytics Layer
+```
 
-country
+### Steps:
 
-date_added
+1. **Raw Data Ingestion** – Read CSV using Python
+2. **Preprocessing & Validation** – Pandas transformations
+3. **Load to MySQL** – SQLAlchemy
+4. **Staging Layer Creation**
+5. **Normalization using SQL + Recursive CTEs**
+6. **Final Analytics Layer**
 
-release_year
+---
 
-rating
+## Technologies Used
 
-duration
+* **Python**
+* **Pandas**
+* **SQLAlchemy**
+* **MySQL**
+* **Recursive CTEs**
+* **Relational Data Modeling**
 
-listed_in (Genres)
+---
 
-description
+## Python ETL Summary
 
-Architecture
+* Read raw CSV file
+* Clean and standardize data
+* Convert datatypes (date, duration, nulls)
+* Connect to MySQL using SQLAlchemy
+* Load cleaned data into **MySQL raw table**
 
-The project follows a structured data pipeline:
+---
 
-Raw data ingestion through Python.
+## MySQL Data Processing Summary
 
-Preprocessing and validation using Pandas.
+* Create raw and staging tables
+* Convert inconsistent date formats
+* Standardize duration (movies: minutes, TV shows: seasons)
+* Handle missing values
+* Normalize multi-value columns:
 
-Writing processed data into a MySQL database.
+  * Genre
+  * Director
+  * Cast
+  * Country
+* Create separate normalized tables:
 
-Creating staging tables for cleaned and standardized values.
+  * `netflix_genre`
+  * `netflix_directors`
+  * `netflix_cast`
+  * `netflix_country`
 
-Normalizing multi-valued fields into separate tables (Genre, Cast, Country, Director).
+---
 
-Preparing final structured datasets for analytics.
+## Normalized Tables
 
-Raw CSV → Python ETL → MySQL Staging → Normalized Tables → Analytics Layer
+The following relational tables are created:
 
-Technologies Used
+| Table Name            | Purpose                      |
+| --------------------- | ---------------------------- |
+| **netflix_stg**       | Clean staging table          |
+| **netflix_directors** | Normalized list of directors |
+| **netflix_country**   | Country normalization        |
+| **netflix_cast**      | Cast normalization           |
+| **netflix_genre**     | Genre normalization          |
 
-Python
+These support **many-to-many relationships** and **analytical queries**.
 
-Pandas
+---
 
-SQLAlchemy
+## Folder Structure
 
-MySQL
-
-Recursive CTEs for normalization
-
-Data modeling and relational design principles
-
-Python ETL Summary
-
-Read the raw CSV file.
-
-Convert data types and clean inconsistent records.
-
-Establish a connection with MySQL using SQLAlchemy.
-
-Load the entire cleaned dataset into a MySQL raw table.
-
-MySQL Data Processing Summary
-
-Creation of raw and staging tables.
-
-Conversion of date formats.
-
-Standardization of duration and missing values.
-
-Normalization of multi-value columns using recursive CTE logic.
-
-Creation of separate tables for directors, country, cast, and genre.
-
-Normalized Tables
-
-The following relational tables were created:
-
-netflix_stg (clean staging table)
-
-netflix_directors
-
-netflix_country
-
-netflix_cast
-
-netflix_genre
-
-These tables help support advanced analytical queries by enabling many-to-many relationships.
-
-Folder Structure
+```
 Netflix-Data-Pipeline/
 │
 ├── data/
@@ -132,24 +145,44 @@ Netflix-Data-Pipeline/
 │   ├── analysis_queries.sql
 │
 └── README.md
+```
 
-How to Run
+---
 
-Install required Python packages:
+## How to Run
+
+### 1️Install Python Packages
+
+```bash
 pip install pandas sqlalchemy pyodbc
+```
 
-Configure MySQL DSN and create the target database.
+### Configure MySQL
 
-Run the Python ETL script to load the dataset into MySQL.
+Create a database and set your DSN/connection string.
 
-Execute SQL scripts in the following order:
+### Run Python ETL Script
 
-create_tables.sql
+Loads raw → cleaned → MySQL.
 
-normalize_data.sql
+### Execute SQL Scripts in Order
 
-analysis_queries.sql
+1. `create_tables.sql`
+2. `normalize_data.sql`
+3. `analysis_queries.sql`
 
-Outcome
+---
 
-At the end of this project, the raw Netflix dataset is transformed into a fully structured, normalized database that supports efficient analysis and reporting. The project provides a clear demonstration of ETL pipelines, SQL data modeling, and relational table design suitable for data engineering and analytics portfolios.
+## Outcome
+
+By the end of this project:
+
+* Raw unorganized Netflix data becomes a **clean, structured, normalized database**
+* Supports **efficient analytics & BI reporting**
+* Demonstrates:
+
+  * ETL workflows
+  * SQL data modeling
+  * Recursive CTE usage
+  * Relational database design
+* Suitable for **Data Engineering & Data Analytics portfolios**
