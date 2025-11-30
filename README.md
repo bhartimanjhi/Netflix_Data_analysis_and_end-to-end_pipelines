@@ -151,21 +151,21 @@ Netflix-Data-Pipeline/
 
 ## How to Run
 
-### 1️Install Python Packages
+### * Install Python Packages
 
 ```bash
 pip install pandas sqlalchemy pyodbc
 ```
 
-### Configure MySQL
+### * Configure MySQL
 
 Create a database and set your DSN/connection string.
 
-### Run Python ETL Script
+### * Run Python ETL Script
 
 Loads raw → cleaned → MySQL.
 
-### Execute SQL Scripts in Order
+### * Execute SQL Scripts in Order
 
 1. `create_tables.sql`
 2. `normalize_data.sql`
